@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2c34d8266b55467fbad2baadb98faef0" Name="Diagram1">
+        <EntityTypeShape EntityType="MenuAppDBModel.Branch" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MenuAppDBModel.Company" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MenuAppDBModel.Deal" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MenuAppDBModel.Product" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="MenuAppDBModel.Sale" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="MenuAppDBModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MenuAppDBModel.FK_Branch_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="MenuAppDBModel.FK_Deals_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="MenuAppDBModel.FK_Product_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="MenuAppDBModel.FK_Sales_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="MenuAppDBModel.FK_Sales_Product" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
