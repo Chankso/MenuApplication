@@ -12,7 +12,6 @@ namespace WebApplication3.Controllers
     {
 
         //Needs DB integration, this variable is useless and should be deleted
-        private List<Sale> _Sales;
 
 
         public SaleController()
@@ -34,8 +33,13 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Sales.ToList();
+                }
+
                 res.IsError = false;
-                res.Data = _Sales;
                 res.ErrorDetails = "Null";
 
 
@@ -52,7 +56,7 @@ namespace WebApplication3.Controllers
 
         }
         [HttpGet]
-        [Route("~/api/Sale/current/{id}")]
+        [Route("~/api/Sale/onSale/{id}")]
         public Response<bool> GetIsOnSale(int id)
         {
 
@@ -60,9 +64,14 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Sales.First(o => o.SaleId == id).IsOnSale;
+                }
+
                 res.IsError = false;
 
-                res.Data = _Sales.First(o=>o.SaleId==id).IsOnSale;
                res.ErrorDetails = "Null";
 
 
@@ -90,8 +99,13 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Sales.Where(o => o.ProductID == id).ToList();
+                }
+
                 res.IsError = false;
-                res.Data = _Sales.Where(o => o.ProductID == id).ToList();
                 res.ErrorDetails = "Null";
 
 
@@ -116,8 +130,13 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Sales.Where(o => o.CompanyId == id).ToList();
+                }
+
                 res.IsError = false;
-                res.Data = _Sales.Where(o => o.CompanyId == id).ToList();
                 res.ErrorDetails = "Null";
 
 
@@ -138,30 +157,7 @@ namespace WebApplication3.Controllers
 
         [HttpGet]
         [Route("~/api/Sale/{id}")]
-        public Response<Sale> GetSales(int id, int ProductID)
-        {
-            Response<Sale> res = new Response<Sale>();
-
-            try
-            {
-                res.IsError = false;
-                res.Data = _Sales.First(o => o.SaleId == id && o.ProductID == ProductID);
-                res.ErrorDetails = "Null";
-
-
-
-            }
-            catch (Exception ex)
-            {
-                res.IsError = true;
-                res.ErrorDetails = ex.Message;
-            }
-
-
-
-
-            return res;
-        }
+    
 
 
 
@@ -172,10 +168,16 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Sales.Add(Sale);
+                }
+
+
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-                _Sales.Add(Sale);
 
 
 
@@ -205,13 +207,15 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Sales.Where(o=>o.SaleId==id).Equals(Sale);
+                }
+
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-
-                var index = _Sales.FindLastIndex(o => o.SaleId == id);
-
-                _Sales[index] = Sale;
 
 
 
@@ -242,13 +246,19 @@ namespace WebApplication3.Controllers
 
             try
             {
+
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+                    var DeletedSale = dbContext.Sales.Where(o => o.SaleId == id).First();
+                    dbContext.Sales.Remove(DeletedSale);
+
+                    dbContext.SaveChanges();
+                }
+
                 res.IsError = false;
                 res.Data = "Item Deleted";
                 res.ErrorDetails = "Null";
 
-                var index = _Sales.FindLastIndex(o => o.SaleId == id);
-
-                _Sales.RemoveAt(index);
 
 
 

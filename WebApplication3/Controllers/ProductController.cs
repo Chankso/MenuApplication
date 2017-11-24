@@ -8,16 +8,11 @@ using WebApplication3;
 namespace WebApplication3.Controllers
 {
     public class ProductController : ApiController
-    { //Needs DB integration, this variable is useless and should be deleted
-        private List<Product> _products;
+    { 
 
 
         public ProductController()
         {
-            _products = new List<Product> { new Product { ProductId = 1,CompanyId=2,Name="Nuka-Cola",Price=1.40m },
-            new Product { ProductId = 2,CompanyId=1,Name="Mexican HotDog",Price=1.30m },
-            new Product { ProductId = 3,CompanyId=2,Name="Small Shawarma",Price=6.00m },
-            new Product { ProductId = 4,CompanyId=2,Name="Big Shawarma",Price=9.00m },};
         }
 
 
@@ -32,8 +27,15 @@ namespace WebApplication3.Controllers
 
             try
             {
+
+
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data=dbContext.Products.ToList();
+                   
+                }
                 res.IsError = false;
-                res.Data = _products;
                 res.ErrorDetails = "Null";
 
 
@@ -62,8 +64,14 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Products.First(o => o.Name == name);
+
+                }
+
                 res.IsError = false;
-                res.Data = _products.First(o => o.Name == name); ;
                 res.ErrorDetails = "Null";
 
 
@@ -91,8 +99,14 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    res.Data = dbContext.Products.FirstOrDefault(o => o.ProductId == id);
+
+                }
+
                 res.IsError = false;
-                res.Data = _products.FirstOrDefault(o => o.ProductId == id);
                 res.ErrorDetails = "Null";
 
 
@@ -119,10 +133,17 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Products.Add(prod);
+
+                    dbContext.SaveChanges();
+                }
+
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-                _products.Add(prod);
 
 
 
@@ -152,14 +173,17 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Products.First(o=> o.ProductId==id).Equals(cpn);
+
+                    dbContext.SaveChanges();
+                }
+
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-
-                var index = _products.FindLastIndex(o => o.ProductId == id);
-
-                _products[index] = cpn;
-
 
 
 
@@ -189,14 +213,18 @@ namespace WebApplication3.Controllers
 
             try
             {
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    var DeletedProduct = dbContext.Products.Where(o => o.ProductId == id).First();
+                    dbContext.Products.Remove(DeletedProduct);
+
+                    dbContext.SaveChanges();
+                }
+
                 res.IsError = false;
                 res.Data = "Item Deleted";
                 res.ErrorDetails = "Null";
-
-                var index = _products.FindLastIndex(o => o.ProductId == id);
-
-                _products.RemoveAt(index);
-
 
 
 
