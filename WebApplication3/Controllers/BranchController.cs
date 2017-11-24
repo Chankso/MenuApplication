@@ -9,20 +9,10 @@ namespace WebApplication3.Controllers
 {
     public class BranchController : ApiController
     {
-        //Needs DB integration, this variable is useless and should be deleted
-        private List<Branch> _branches;
 
 
         public BranchController()
         {
-
-            //Strings should only take numbers
-
-            _branches = new List<Branch> { new Branch { BranchId = 1, CompanyId = 1, Latitude=3.14f, Longitude=4.13f, OpenClose="09:00/22:00", PhoneNumber="55724esProblemaa", PhysAddress="addressHere" },
-            new Branch { BranchId = 2, CompanyId = 3, Latitude=3.14f, Longitude=4.13f, OpenClose="09:00/22:00", PhoneNumber="55724esProblemaa", PhysAddress="addressHere" },
-            new Branch { BranchId = 3, CompanyId = 2, Latitude=3.14f, Longitude=4.13f, OpenClose="09:00/22:00", PhoneNumber="55724esProblemaa", PhysAddress="addressHere" },
-            new Branch { BranchId = 4, CompanyId = 5, Latitude=3.14f, Longitude=4.13f, OpenClose="09:00/22:00", PhoneNumber="55724esProblemaa", PhysAddress="addressHere" },
-            new Branch { BranchId = 5, CompanyId = 4, Latitude=3.14f, Longitude=4.13f, OpenClose="09:00/22:00", PhoneNumber="55724esProblemaa", PhysAddress="addressHere" },};
         }
 
 
@@ -32,11 +22,18 @@ namespace WebApplication3.Controllers
         [Route("~/api/Branch/")]
         public Response<List<Branch>> GetBranches()
         {
-
             Response<List<Branch>> res = new Response<List<Branch>>();
-
+            
             try
             {
+
+                List<Branch> _branches;
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    _branches = dbContext.Branches.ToList();
+                }
+
                 res.IsError = false;
                 res.Data = _branches;
                 res.ErrorDetails = "Null";
@@ -67,8 +64,15 @@ namespace WebApplication3.Controllers
 
             try
             {
-                res.IsError = false;
-                res.Data = _branches.Where(o => o.CompanyId == id).ToList();
+                List<Branch> _branches;
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    _branches = dbContext.Branches.Where(o => o.CompanyId == id).ToList();
+                    
+                }
+                    res.IsError = false;
+                res.Data = _branches;
                 res.ErrorDetails = "Null";
 
 
@@ -96,8 +100,17 @@ namespace WebApplication3.Controllers
 
             try
             {
+
+                Branch _branch;
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    _branch = dbContext.Branches.Where(o => o.BranchId == id).First();
+
+                }
+
                 res.IsError = false;
-                res.Data = _branches.First(o => o.BranchId == id&&o.CompanyId==companyId);
+                res.Data = _branch;
                 res.ErrorDetails = "Null";
 
 
@@ -118,16 +131,24 @@ namespace WebApplication3.Controllers
 
 
         [HttpPost]
+        [Route("~/api/Branch/Add/{brnch}")]
         public Response<string> AddBranch(Branch brnch)
         {
             Response<string> res = new Response<string>();
 
             try
             {
+
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Branches.Add(brnch);
+
+                    dbContext.SaveChanges();
+                }
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-                _branches.Add(brnch);
 
 
 
@@ -151,19 +172,25 @@ namespace WebApplication3.Controllers
 
 
         [HttpPut]
+        [Route("~/api/Branch/Add/{id}?{brnch}")]
         public Response<string> EditBranch(int id, Branch brnch)
         {
             Response<string> res = new Response<string>();
 
             try
             {
+
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+
+                    dbContext.Branches.First(o=>o.BranchId==id).Equals(brnch);
+
+                    dbContext.SaveChanges();
+                }
+
                 res.IsError = false;
                 res.Data = "Everything is fine";
                 res.ErrorDetails = "Null";
-
-                var index = _branches.FindLastIndex(o => o.BranchId == id);
-
-                _branches[index] = brnch;
 
 
 
@@ -188,6 +215,7 @@ namespace WebApplication3.Controllers
 
 
         [HttpDelete]
+        [Route("~/api/Branch/Delete/{id}")]
         public Response<string> DeleteBranch(int id)
         {
             Response<string> res = new Response<string>();
@@ -198,11 +226,13 @@ namespace WebApplication3.Controllers
                 res.Data = "Item Deleted";
                 res.ErrorDetails = "Null";
 
-                var index = _branches.FindLastIndex(o => o.BranchId == id);
+                using (var dbContext = new MenuAppDBEntities3())
+                {
+                    var DeletedBranch = dbContext.Branches.Where(o => o.BranchId == id).First();
+                    dbContext.Branches.Remove(DeletedBranch);
 
-                _branches.RemoveAt(index);
-
-
+                    dbContext.SaveChanges();
+                }
 
 
 

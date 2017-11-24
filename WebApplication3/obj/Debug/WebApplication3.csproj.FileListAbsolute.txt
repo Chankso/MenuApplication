@@ -149,6 +149,5 @@ C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplicatio
 C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\bin\Microsoft.AI.Web.xml
-C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\obj\Debug\WebApplication3.csprojResolveAssemblyReference.cache
 C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\obj\Debug\WebApplication3.dll
 C:\Users\chank\Desktop\Xamarin25Done\Xamarin25Done\MenuApplication\WebApplication3\obj\Debug\WebApplication3.pdb

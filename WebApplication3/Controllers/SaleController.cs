@@ -20,11 +20,6 @@ namespace WebApplication3.Controllers
 
             //Strings should only take numbers
 
-            _Sales = new List<Sale> { new Sale {SaleId=1, ProductId=1, CompanyId=1, IsOnSale=true, Percentile=1.00f, StartDate=new DateTime(2017,11,2), EndDate= new DateTime(2017,11,4) },
-            new Sale {SaleId=2, ProductId=1, CompanyId=1,IsOnSale=true, Percentile=1.00f, StartDate=new DateTime(2017,11,2), EndDate= new DateTime(2017,11,4) },
-            new Sale {SaleId=3, ProductId=1,CompanyId=1, IsOnSale=true, Percentile=1.00f, StartDate=new DateTime(2017,11,2), EndDate= new DateTime(2017,11,4) },
-            new Sale {SaleId=4, ProductId=1, CompanyId=1,IsOnSale=true, Percentile=1.00f, StartDate=new DateTime(2017,11,2), EndDate= new DateTime(2017,11,4) },
-            new Sale {SaleId=5, ProductId=1,CompanyId=1, IsOnSale=true, Percentile=1.00f, StartDate=new DateTime(2017,11,2), EndDate= new DateTime(2017,11,4) },};
         }
 
 
@@ -96,7 +91,7 @@ namespace WebApplication3.Controllers
             try
             {
                 res.IsError = false;
-                res.Data = _Sales.Where(o => o.ProductId == id).ToList();
+                res.Data = _Sales.Where(o => o.ProductID == id).ToList();
                 res.ErrorDetails = "Null";
 
 
@@ -143,14 +138,14 @@ namespace WebApplication3.Controllers
 
         [HttpGet]
         [Route("~/api/Sale/{id}")]
-        public Response<Sale> GetSales(int id, int productId)
+        public Response<Sale> GetSales(int id, int ProductID)
         {
             Response<Sale> res = new Response<Sale>();
 
             try
             {
                 res.IsError = false;
-                res.Data = _Sales.First(o => o.SaleId == id && o.ProductId == productId);
+                res.Data = _Sales.First(o => o.SaleId == id && o.ProductID == ProductID);
                 res.ErrorDetails = "Null";
 
 

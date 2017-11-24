@@ -20,7 +20,7 @@ namespace WebApplication3
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public Nullable<int> CompanyId { get; set; }
-        public int ProductId { get; set; }
+        public int ProductID { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Product Product { get; set; }
